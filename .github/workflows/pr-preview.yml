@@ -17,15 +17,16 @@ jobs:
             const branch = context.payload.pull_request.head.ref;
             const repo = context.repo.repo;
             const owner = context.repo.owner;
-            const sha = context.payload.pull_request.head.sha.substring(0, 7);
+            const sha = context.payload.pull_request.head.sha;
+            const shortSha = sha.substring(0, 7);
 
-            const previewUrl = `https://raw.githack.com/${owner}/${repo}/${branch}/index.html`;
+            const previewUrl = `https://rawcdn.githack.com/${owner}/${repo}/${sha}/index.html`;
 
             const body = `## 🌿 Preview
 
-            **[View preview](${previewUrl})** (branch: \`${branch}\`)
+            **[View preview](${previewUrl})** (commit: \`${shortSha}\`)
 
-            > Updated at commit ${sha}`;
+            > Each commit generates a fresh preview URL`;
 
             // Find existing bot comment
             const { data: comments } = await github.rest.issues.listComments({
