@@ -1,4 +1,4 @@
-.PHONY: all ci install format format-check lint serve clean help
+.PHONY: all ci install format format-check lint lint-html serve watch clean help
 
 all: ci
 
@@ -18,8 +18,12 @@ format:
 format-check:
 	@npm run format:check
 
+# Lint HTML with HTMLHint
+lint-html:
+	@npm run lint:html
+
 # Run all linting checks
-lint: format-check check-files
+lint: format-check lint-html check-files
 	@echo "✓ Lint checks passed"
 
 # Check required files exist
@@ -31,6 +35,10 @@ check-files:
 # Start local development server
 serve:
 	@npm run serve
+
+# Start dev server with live reload
+watch:
+	@npm run watch
 
 # Clean generated files
 clean:
@@ -45,5 +53,7 @@ help:
 	@echo "  make format       - Format code with Prettier"
 	@echo "  make format-check - Check formatting (CI)"
 	@echo "  make lint         - Run all linting checks"
+	@echo "  make lint-html    - Lint HTML with HTMLHint"
 	@echo "  make serve        - Start local dev server"
+	@echo "  make watch        - Start dev server with live reload"
 	@echo "  make clean        - Remove node_modules"

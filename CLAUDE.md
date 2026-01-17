@@ -7,8 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ```bash
 make ci            # Run all CI checks locally (install + lint)
 make serve         # Start local dev server at localhost:3000
+make watch         # Start dev server with live reload
 make format        # Auto-format with Prettier
 make format-check  # Check formatting without modifying
+make lint-html     # Lint HTML with HTMLHint
 ```
 
 ## Architecture
