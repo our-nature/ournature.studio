@@ -23,12 +23,13 @@ An interactive fern visualization using Three.js and IFS (Iterated Function Syst
 ## Development
 
 ```bash
-npm install        # Install dependencies
-npm run serve      # Start local server
-npm run format     # Format code with Prettier
+make install       # Install dependencies
+make serve         # Start local server
+make format        # Format code with Prettier
+make ci            # Run CI checks locally
 ```
 
-Or simply open `ferns.html` directly in a browser.
+Or simply open `index.html` directly in a browser.
 
 ## Deployment
 
