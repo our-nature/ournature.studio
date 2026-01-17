@@ -1,0 +1,12 @@
+{
+    "name": "ournature.studio",
+    "private": true,
+    "scripts": {
+        "format": "prettier --write .",
+        "format:check": "prettier --check .",
+        "serve": "npx serve ."
+    },
+    "devDependencies": {
+        "prettier": "^3.2.0"
+    }
+}
