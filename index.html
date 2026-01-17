@@ -1260,11 +1260,16 @@
 
                     // Temporarily disable transitions to reset spans to opacity 0
                     const spans = titleEl.querySelectorAll('span');
+                    // Save transitionDelay before disabling (shorthand resets it)
+                    const delays = Array.from(spans).map((span) => span.style.transitionDelay);
                     spans.forEach((span) => (span.style.transition = 'none'));
                     void titleEl.offsetHeight; // Force reflow
 
-                    // Re-enable transitions and start animation
-                    spans.forEach((span) => (span.style.transition = ''));
+                    // Re-enable transitions and restore delays
+                    spans.forEach((span, i) => {
+                        span.style.transition = '';
+                        span.style.transitionDelay = delays[i];
+                    });
                     titleEl.classList.add('visible');
 
                     // Restart the cycle
