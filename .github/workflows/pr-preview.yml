@@ -1,0 +1,57 @@
+name: PR Preview
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  preview-comment:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Comment preview link
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = context.payload.pull_request.head.ref;
+            const repo = context.repo.repo;
+            const owner = context.repo.owner;
+            const sha = context.payload.pull_request.head.sha.substring(0, 7);
+
+            const previewUrl = `https://raw.githack.com/${owner}/${repo}/${branch}/index.html`;
+
+            const body = `## 🌿 Preview
+
+            **[View preview](${previewUrl})** (branch: \`${branch}\`)
+
+            > Updated at commit ${sha}`;
+
+            // Find existing bot comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner,
+              repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('## 🌿 Preview')
+            );
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner,
+                repo,
+                comment_id: botComment.id,
+                body
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: context.issue.number,
+                body
+              });
+            }
